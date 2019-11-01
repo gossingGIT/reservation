@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class TalkController {
 	private static final Logger logger = LoggerFactory.getLogger(TalkController.class);
 	
-	@RequestMapping(value="/",method=RequestMethod.GET)
+	@RequestMapping(value="/view",method=RequestMethod.GET)
 	public void list() throws Exception
 	{
 		

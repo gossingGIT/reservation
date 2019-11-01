@@ -1,8 +1,12 @@
 package org.soccer.controller;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soccer.service.ReservationService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -11,10 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ReservationController {
 	private static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 	
-	@RequestMapping(value="/",method=RequestMethod.GET)
-	public void list() throws Exception
+	@Inject
+	private ReservationService service;
+	
+	@RequestMapping(value="/view",method=RequestMethod.GET)
+	public void list(Model model) throws Exception
 	{
-		
+		logger.info("예약 현황");
+		model.addAttribute("status",service.status());
+		logger.info(model.toString());
 	}
+
 	
 }

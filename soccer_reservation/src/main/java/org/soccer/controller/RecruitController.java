@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class RecruitController {
 	private static final Logger logger = LoggerFactory.getLogger(RecruitController.class);
 	
-	@RequestMapping(value="/",method=RequestMethod.GET)
+	@RequestMapping(value="/view",method=RequestMethod.GET)
 	public void list() throws Exception
 	{
 		
