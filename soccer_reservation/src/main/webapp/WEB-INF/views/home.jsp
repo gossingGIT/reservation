@@ -12,18 +12,18 @@
    <!--    <div class="row"> -->
 			
 			<div class="col-md-4">
-				<div class="card">
+				<div class="card" >
 					<h5 class="card-header">공지사항</h5>
-					<div class="card-body">
+					<div class="card-body" id="notice">
 						
 					</div>
 				</div>
 			</div>
 			
 			<div class="col-md-4">
-				<div class="card">
+				<div class="card" >
 					<h5 class="card-header">상대모집</h5>
-					<div class="card-body">
+					<div class="card-body" id="recruit">
 						
 					</div>
 				</div>
@@ -32,7 +32,7 @@
 			<div class="col-md-4">
 				<div class="card">
 					<h5 class="card-header">자유게시판</h5>
-					<div class="card-body">
+					<div class="card-body" id="talk">
 						
 					</div>
 				</div>
@@ -43,6 +43,46 @@
     </div>
   </div>
 
-  
+
+<script>
+var str1="";
+var str2="";
+var str3="";
+$.getJSON("/recent/all/notice",function(data){
+	
+	$(data).each(function(){
+		str1 +="<a href='/notice/read?bno="+this.bno+"'>"+"● "+this.title+"</a><br>";
+	});
+	
+	$("#notice").html(str1);
+});
+
+
+
+
+</script>
+
+<script>
+$.getJSON("/recent/all/recruit",function(data){
+	
+	$(data).each(function(){
+		str2 +="<a href='/recruit/read?bno="+this.bno+"'>"+"● "+this.title+"</a><br>";
+	});
+	
+	$("#recruit").html(str2);
+});
+
+</script>
+ 
+<script>
+$.getJSON("/recent/all/talk",function(data){
+	
+	$(data).each(function(){
+		str3 +="<a href='/talk/read?bno="+this.bno+"'>"+"● "+this.title+"</a><br>";
+	});
+	
+	$("#talk").html(str3);
+});
+</script>  
 <%@include file="includes/footer.jsp"%>
 
