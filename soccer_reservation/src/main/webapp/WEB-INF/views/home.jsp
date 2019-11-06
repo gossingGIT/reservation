@@ -3,6 +3,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@include file="includes/header.jsp"%>
+<style type="text/css">
+.jumbotron {
+	background-image: url('/resources/img/kunsan_univ.JPG');
+	background-size: cover;
+	text-shadow: black 0.3em 0.3em 0.3em;
+	color: white;
+}
+</style>
   <!-- Main Content -->
   <div class="container" id="content">
     <div class="row">
@@ -10,6 +18,7 @@
         
         <hr>
    <!--    <div class="row"> -->
+			
 			
 			<div class="col-md-4">
 				<div class="card" >
