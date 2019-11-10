@@ -44,6 +44,21 @@
 			<mapping path="/reservation/view"/>
 			<beans:ref bean="authInterceptor"/>
 		</interceptor>
+		
+		<interceptor>
+			<mapping path="/notice/add"/>
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/recruit/add"/>
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/talk/add"/>
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
 	</interceptors>
 	
 	
