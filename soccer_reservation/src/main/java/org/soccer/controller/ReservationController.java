@@ -26,8 +26,8 @@ public class ReservationController {
 	public void list(Model model) throws Exception
 	{
 		logger.info("예약 현황");
-		model.addAttribute("status",service.status());
-		logger.info(model.toString());
+		//model.addAttribute("status",service.status());
+		//logger.info(model.toString());
 	}
 	
 	@RequestMapping(value="/manage",method=RequestMethod.GET)

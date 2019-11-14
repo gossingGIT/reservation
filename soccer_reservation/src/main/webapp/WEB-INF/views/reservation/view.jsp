@@ -2,113 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@include file="../includes/header.jsp"%>
+<link rel="stylesheet" href="/resources/calendar/css/dncalendar-skin.min.css">
+<script src="/resources/calendar/js/dncalendar.min.js?ver=1"></script>
 <div class="container" id="content">
 	<h3>예약 현황</h3>
 	<br>
-	<table class="table">
-		<caption></caption>
-		<thead>
-			<tr>
-				<th scope="col">시간</th>
-				<th scope="col">월</th>
-				<th scope="col">화</th>
-				<th scope="col">수</th>
-				<th scope="col">목</th>
-				<th scope="col">금</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach items="${status}" var="st">
-				<tr>
-					<c:choose>
-						<c:when test="${st.id == 1}">
-							<th scope="row">09:00 ~ 10:00</th>
-						</c:when>
+		<div id="dncalendar-container"></div>
+	
 
-						<c:when test="${st.id==2}">
-							<th scope="row">10:00 ~ 11:00</th>
-						</c:when>
-
-						<c:when test="${st.id==3}">
-							<th scope="row">11:00 ~ 12:00</th>
-						</c:when>
-
-						<c:when test="${st.id==4}">
-							<th scope="row">12:00 ~ 13:00</th>
-						</c:when>
-
-						<c:when test="${st.id==5}">
-							<th scope="row">13:00 ~ 14:00</th>
-						</c:when>
-
-						<c:when test="${st.id==6}">
-							<th scope="row">14:00 ~ 15:00</th>
-						</c:when>
-
-						<c:when test="${st.id==7}">
-							<th scope="row">15:00 ~ 16:00</th>
-						</c:when>
-
-						<c:when test="${st.id==8}">
-							<th scope="row">16:00 ~ 17:00</th>
-						</c:when>
-
-						<c:when test="${st.id==9}">
-							<th scope="row">17:00 ~ 18:00</th>
-						</c:when>
-					</c:choose>
-
-
-					<c:choose>
-						<c:when test="${st.mon == 0}">
-							<td>가능</td>
-						</c:when>
-						<c:otherwise>
-							<td><b>불가</b></td>
-						</c:otherwise>
-					</c:choose>
-
-					<c:choose>
-						<c:when test="${st.tue == 0}">
-							<td>가능</td>
-						</c:when>
-						<c:otherwise>
-							<td><b>불가</b></td>
-						</c:otherwise>
-					</c:choose>
-
-					<c:choose>
-						<c:when test="${st.wed == 0}">
-							<td>가능</td>
-						</c:when>
-						<c:otherwise>
-							<td><b>불가</b></td>
-						</c:otherwise>
-					</c:choose>
-
-					<c:choose>
-						<c:when test="${st.thu == 0}">
-							<td>가능</td>
-						</c:when>
-						<c:otherwise>
-							<td><b>불가</b></td>
-						</c:otherwise>
-					</c:choose>
-
-					<c:choose>
-						<c:when test="${st.fri == 0}">
-							<td>가능</td>
-						</c:when>
-						<c:otherwise>
-							<td><b>불가</b></td>
-						</c:otherwise>
-					</c:choose>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-
-	<button type="button" class="btn btn-primary btn-lg" id="res_btn">예약하기</button>
 	<button type="button" class="btn btn-primary btn-lg" id="res_status">예약확인</button>
 	<c:if test="${login.ulevel==5}">
 		<button type="button" class="btn btn-warning btn-lg" id="res_manage">관리자
@@ -157,7 +58,7 @@
 		</div>
 	</div>
 
-	<div class="modal" tabindex="-1" role="dialog" id="statusModal">
+	<div class="modal" tabindex="-1" role="dialog" id="calendarStatusModal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -168,8 +69,21 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<h6>${login.uid}님의예약 현황</h6>
-					<table class="table" id="statusResBody"></table>
+					<h6 id='calendarRes_date'></h6>
+					<table class="table" id="statusResBody">
+						<thead><tr><th>시간대</th><th>가능여부</th></tr></thead>
+						<tbody>
+						<tr><th>09:00 ~ 10:00</th><th id='t1'><a href='#'>가능</a></th></tr>
+						<tr><th>10:00 ~ 11:00</th><th id='t2'><a href='#'>가능</a></th></tr>
+						<tr><th>11:00 ~ 12:00</th><th id='t3'><a href='#'>가능</a></th></tr>
+						<tr><th>12:00 ~ 13:00</th><th id='t4'><a href='#'>가능</a></th></tr>
+						<tr><th>13:00 ~ 14:00</th><th id='t5'><a href='#'>가능</a></th></tr>
+						<tr><th>14:00 ~ 15:00</th><th id='t6'><a href='#'>가능</a></th></tr>
+						<tr><th>15:00 ~ 16:00</th><th id='t7'><a href='#'>가능</a></th></tr>
+						<tr><th>16:00 ~ 17:00</th><th id='t8'><a href='#'>가능</a></th></tr>
+						<tr><th>17:00 ~ 18:00</th><th id='t9'><a href='#'>가능</a></th></tr>
+					</tbody>
+					</table>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
@@ -179,57 +93,194 @@
 		</div>
 	</div>
 	
-	
-
+		<div class="modal" tabindex="-1" role="dialog" id="myStatusModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">예약확인</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+				<h6>${login.uid}님의 예약 현황</h6>
+					<table class="table" id="statusMyResBody"></table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 
 
 
-<script>
-	$('#res_btn').on("click", function() {
-		$("#addModal").modal();
-	});
-	$('#res_ok').on("click", function() {
-		var uid = "${login.uid}";
-		var ulevel="${login.ulevel}";
-		var udepartment = "${login.udepartment}";
-		var res_day = $('#res_day option:selected').val();
-		var res_time = $('#res_time option:selected').val();
-		$.ajax({
-			type : 'post',
-			url : '/res_add/',
-			headers : {
-				"Content-Type" : "application/json",
-				"X-HTTP-Method-Override" : "POST"
-			},
-			dataType : 'text',
-			data : JSON.stringify({
-				uid : uid,
-				udepartment : udepartment,
-				res_time : res_time,
-				ulevel : ulevel ,
-				res_day : res_day
-			}),
-			success : function(result) {
-				console.log("result: " + result);
-				if (result == 'SUCCESS') {
-					alert("등록 되었습니다.");
-					location.reload();
-				} else {
-					alert("실패하였습니다.");
-					location.reload();
-				}
-			}
-		});
 
+<script>
+
+
+
+function add(res_time,res_day)
+{
+	console.log("add");
+	var uid = "${login.uid}";
+	var ulevel="${login.ulevel}";
+	var udepartment = "${login.udepartment}";
+	$.ajax({
+		type : 'post',
+		url : '/res_add/',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "POST"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			uid : uid,
+			udepartment : udepartment,
+			res_time : res_time,
+			ulevel : ulevel ,
+			res_day : res_day
+		}),
+		success : function(result) {
+			console.log("result: " + result);
+			if (result == 'SUCCESS') {
+				alert("등록 되었습니다.");
+				location.reload();
+			} else {
+				alert("실패하였습니다.");
+				location.reload();
+			}
+		}
 	});
+	
+	
+}
+
+
+
+
+
+
+$("#dncalendar-container").dnCalendar().build();
+
+
+
+$("#dncalendar-container").dnCalendar({
+	dayClick: function(date, view) {
+		
+		var year=date.getFullYear();
+		var mon=date.getMonth()+1;
+		var day=date.getDate();
+		
+		var dateStr=year+"-"+mon+"-"+day;
+		$("#calendarRes_date").html(dateStr);
+    	$("#calendarStatusModal").modal();
+		//alert(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());
+		
+	
+		$.getJSON("/res_add/all1/"+dateStr,function(data){
+			var str="";
+			var count=1;
+			var t1=0;
+			var t2=0;
+			var t3=0;
+			var t4=0;
+			var t5=0;
+			var t6=0;
+			var t7=0;
+			var t8=0;
+			var t9=0;
+			console.log(data);
+			$(data).each(function(){
+				switch (this.res_time)
+				{
+				case 1:
+					t1=1;
+					break;
+				case 2:
+					t2=1;
+					break;
+				case 3:
+					t3=1;
+					break;
+				case 4:
+					t4=1;
+					break;
+				case 5:
+					t5=1;
+					break;
+				case 6:
+					t6=1;
+					break;
+				case 7:
+					t7=1;
+					break;
+				case 8:
+					t8=1;
+					break;
+				case 9:
+					t9=1;
+					break;
+				}
+			});
+		
+			for (var i=0;i<9;i++)
+				{
+					if (t1<1&&i==0)
+						{
+						
+							str+="<tr><th>09:00 ~ 10:00</th><th><a href=javascript:add("+(i+1)+",'"+dateStr+"');>가능</a></th></tr>";
+						}
+					else if (t2<1&&i==1)
+					{
+						str+="<tr><th>10:00 ~ 11:00</th><th><a href=javascript:add("+(i+1)+",'"+dateStr+"');>가능</a></th></tr>";
+					}
+					else if (t3<1&&i==2)
+					{
+						str+="<tr><th>11:00 ~ 12:00</th><th><a href=javascript:add("+(i+1)+",'"+dateStr+"');>가능</a></th></tr>";
+					}
+					else if (t4<1&&i==3)
+					{
+						str+="<tr><th>12:00 ~ 13:00</th><th><a href=javascript:add("+(i+1)+",'"+dateStr+"');>가능</a></th></tr>";
+					}
+					else if (t5<1&&i==4)
+					{
+						str+="<tr><th>13:00 ~ 14:00</th><th><a href=javascript:add("+(i+1)+",'"+dateStr+"');>가능</a></th></tr>";
+					}
+					else if (t6<1&&i==5)
+					{
+						str+="<tr><th>14:00 ~ 15:00</th><th><a href=javascript:add("+(i+1)+",'"+dateStr+"');>가능</a></th></tr>";
+					}
+					else if (t7<1&&i==6)
+					{
+						str+="<tr><th>15:00 ~ 16:00</th><th><a href=javascript:add("+(i+1)+",'"+dateStr+"');>가능</a></th></tr>";
+					}
+					else if (t8<1&&i==7)
+					{
+						str+="<tr><th>16:00 ~ 17:00</th><th><a href=javascript:add("+(i+1)+",'"+dateStr+"');>가능</a></th></tr>";
+					}
+					else if (t9<1&&i==8)
+					{
+						str+="<tr><th>17:00 ~ 18:00</th><th><a href=javascript:add("+(i+1)+",'"+dateStr+"');>가능</a></th></tr>";
+					}
+				}
+			$("#statusResBody").html(str);
+			
+		});
+		
+    }
+}).build();
+
 
 	$('#res_status')
 			.on(
 					"click",
 					function() {
-						$("#statusModal").modal();
+						$("#myStatusModal").modal();
 						var user_id = "${login.uid}";
 						var str = "";
 						$
@@ -239,20 +290,8 @@
 											$(data)
 													.each(
 															function() {
-																var day = "";
+																
 																var time = "";
-
-																if (this.res_day == 'mon') {
-																	day = '월요일';
-																} else if (this.res_day == 'tue') {
-																	day = '화요일';
-																} else if (this.res_day == 'wed') {
-																	day = '수요일';
-																} else if (this.res_day == 'thu') {
-																	day = '목요일';
-																} else if (this.res_day == 'fri') {
-																	day = '금요일';
-																}
 
 																switch (this.res_time) {
 																case 1:
@@ -284,12 +323,10 @@
 																	break;
 
 																}
-
+																console.log(this.res_day);
 																str += "<tr><th>"
-																		+ day
-																		+ "</th><th>"
 																		+ time
-																		+ "</th><th>"
+																		+ "</th><th>"+this.res_day+"</th><th>"
 																		+ " <a href=javascript:resDelete('"
 																		+ this.uid
 																		+ "','"
@@ -300,7 +337,7 @@
 																		+ this.res_day
 																		+ "'); id='deleteReplyBtn'>삭제</a></th><tr>";
 																$(
-																		"#statusResBody")
+																		"#statusMyResBody")
 																		.html(
 																				str);
 															});
